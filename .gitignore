@@ -1,30 +1,468 @@
-# Dependencies
-node_modules/
+# =============================================================================
+# Git Ignore
+# =============================================================================
+#
+# Files and directories to exclude from version control.
+# Documentation: https://git-scm.com/docs/gitignore
+#
+# This file is portable - copy to other repos without modification.
+#
+# -----------------------------------------------------------------------------
+# Pattern Syntax
+# -----------------------------------------------------------------------------
+#
+#   pattern      Ignore files matching pattern
+#   /pattern     Ignore only in root directory
+#   pattern/     Ignore directory (and contents)
+#   !pattern     Negate (re-include) a previously ignored pattern
+#   *            Match any characters (except /)
+#   **           Match any directories
+#   ?            Match single character
+#   [abc]        Match one of the characters
+#
+# =============================================================================
 
-# Build output
-dist/
-build/
 
-# Testing
-coverage/
-*.log
-src/actions/**/__test_fixtures__/
+# =============================================================================
+# Operating System Files
+# =============================================================================
+#
+# OS-generated files that should never be committed.
+#
+# -----------------------------------------------------------------------------
 
-# IDE
-.vscode/
-.idea/
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+.directory
+
+# Editor swap files
 *.swp
 *.swo
-*~
+.null-ls*
+.~*
 
-# OS
-.DS_Store
-Thumbs.db
 
-# Environment
+# =============================================================================
+# IDE & Editor Configuration
+# =============================================================================
+#
+# Editor-specific files. Keep shared settings in .editorconfig instead.
+#
+# VS Code: Allow certain config files for team consistency.
+#
+# -----------------------------------------------------------------------------
+
+.idea/
+.project
+.pydevproject
+.settings/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# VS Code - ignore all except shared configs
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+
+# =============================================================================
+# Python - Bytecode & Cache
+# =============================================================================
+#
+# Compiled Python files are regenerated automatically.
+#
+# -----------------------------------------------------------------------------
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+
+# =============================================================================
+# Python - Distribution & Packaging
+# =============================================================================
+#
+# Build artifacts from setuptools, pip, and other tools.
+#
+# -----------------------------------------------------------------------------
+
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+
+# =============================================================================
+# Python - Installers
+# =============================================================================
+
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+
+# =============================================================================
+# Python - Testing & Coverage
+# =============================================================================
+#
+# Test outputs and coverage reports.
+#
+# -----------------------------------------------------------------------------
+
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.json
+coverage.xml
+nosetests.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+tst/reports/
+
+
+# =============================================================================
+# Python - Type Checkers
+# =============================================================================
+
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.ruff_cache/
+.pytype/
+
+
+# =============================================================================
+# Python - Virtual Environments
+# =============================================================================
+#
+# Virtual environments should be created locally, not committed.
+# Use pyproject.toml or requirements.txt to define dependencies.
+#
+# -----------------------------------------------------------------------------
+
 .env
-.env.local
+*.env
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.python-version
 
-# Temporary files
+
+# =============================================================================
+# Python - PEP 582
+# =============================================================================
+#
+# Python local packages directory (PEP 582).
+#
+# -----------------------------------------------------------------------------
+
+__pypackages__/
+
+
+# =============================================================================
+# Python - Task Runners
+# =============================================================================
+
+celerybeat-schedule
+celerybeat.pid
+*.sage.py
+
+
+# =============================================================================
+# Python - IDE Plugins
+# =============================================================================
+
+.spyderproject
+.spyproject
+.ropeproject
+
+
+# =============================================================================
+# Django
+# =============================================================================
+#
+# Django-specific files.
+#
+# -----------------------------------------------------------------------------
+
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+
+# =============================================================================
+# Translations
+# =============================================================================
+#
+# Exclude .pot (template) files but KEEP locale .po and .mo files.
+#
+# -----------------------------------------------------------------------------
+
+*.pot
+
+# Keep locale files (negate ignore)
+!*/locale/
+!*/locale/*/LC_MESSAGES/*.mo
+!*/locale/*/LC_MESSAGES/*.po
+
+
+# =============================================================================
+# Node.js - Dependencies
+# =============================================================================
+#
+# Dependencies are installed from package.json, not committed.
+#
+# -----------------------------------------------------------------------------
+
+node_modules/
+jspm_packages/
+web_modules/
+bower_components/
+
+
+# =============================================================================
+# Node.js - Build Outputs
+# =============================================================================
+
+dist/
+dist-ssr/
+*.local
+public/
+
+
+# =============================================================================
+# Node.js - Cache
+# =============================================================================
+
+.npm
+.eslintcache
+.stylelintcache
+.parcel-cache
+.cache/
+.rpt2_cache_cjs/
+.rpt2_cache_es/
+.rpt2_cache_umd/
+
+
+# =============================================================================
+# Node.js - TypeScript
+# =============================================================================
+
+*.tsbuildinfo
+
+
+# =============================================================================
+# Node.js - Package Managers
+# =============================================================================
+
+# Yarn
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# npm pack output
+*.tgz
+
+
+# =============================================================================
+# Logs
+# =============================================================================
+#
+# Log files from various tools.
+#
+# -----------------------------------------------------------------------------
+
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+
+# =============================================================================
+# Runtime Files
+# =============================================================================
+
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+
+# =============================================================================
+# Testing & Coverage
+# =============================================================================
+#
+# Test framework outputs and coverage reports.
+#
+# -----------------------------------------------------------------------------
+
+coverage/
+lib-cov/
+.nyc_output/
+*.lcov
+
+
+# =============================================================================
+# Documentation - Generated
+# =============================================================================
+#
+# Generated documentation sites.
+#
+# -----------------------------------------------------------------------------
+
+site/
+doc/_build/
+docs/_build/
+
+
+# =============================================================================
+# Jupyter Notebooks
+# =============================================================================
+
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+
+# =============================================================================
+# Frontend Frameworks
+# =============================================================================
+
+# Next.js
+.next/
+out/
+
+# Nuxt.js
+.nuxt/
+
+# Gatsby
+# public/  # Already covered above
+
+# VuePress
+.vuepress/dist/
+.temp/
+
+# Docusaurus
+.docusaurus/
+
+# Serverless
+.serverless/
+
+# FuseBox
+.fusebox/
+
+# Grunt
+.grunt/
+
+
+# =============================================================================
+# Databases
+# =============================================================================
+#
+# Local development databases should not be committed.
+# Production uses external database services.
+#
+# -----------------------------------------------------------------------------
+
+*.sqlite3
+*.sqlite3-journal
+.dynamodb/
+database_backups/
+
+
+# =============================================================================
+# Secrets & Local Configuration
+# =============================================================================
+#
+# NEVER commit secrets or local configuration.
+# Use environment variables or secret managers instead.
+#
+# -----------------------------------------------------------------------------
+
+__secret__*
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+*.pem
+*.key
+
+
+# =============================================================================
+# Temporary & Development
+# =============================================================================
+#
+# Scratch directories and temporary files.
+#
+# -----------------------------------------------------------------------------
+
 tmp/
-temp/
+/tmp/
+bup/
+wip/
+*.tmp
+*.temp
+*.bak
+*.backup
+
+
+# =============================================================================
+# Miscellaneous
+# =============================================================================
+
+.bash_history
+.python_history
+.local/
+.node_repl_history
+.tern-port
+.vscode-test/
+.lock-wscript
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
