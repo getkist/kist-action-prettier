@@ -1,16 +1,28 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 type: software
-title: "@getkist/action-eslint"
-version: 1.0.0
-abstract: "ESLint linting actions for kist"
+title: "@getkist/action-prettier"
+version: 1.0.1
+date-released: "2026-02-08"
+abstract: "Prettier code formatting action for kist - A TypeScript-based build orchestration tool"
 authors:
-  - name: "kist"
-repository-code: "https://github.com/getkist/kist-action-eslint"
+  - name: "kist contributors"
+    affiliation: "kist project"
+repository-code: "https://github.com/getkist/kist-action-prettier"
+url: "https://kist.js.org"
 license: MIT
 keywords:
   - kist
-  - eslint
-  - linting
+  - prettier
+  - formatting
+  - code-style
   - typescript
   - javascript
+  - build-tool
+references:
+  - type: software
+    title: "Prettier"
+    url: "https://prettier.io"
+  - type: software
+    title: "kist"
+    repository-code: "https://github.com/getkist/kist"
