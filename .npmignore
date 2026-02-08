@@ -1,0 +1,31 @@
+# Source files
+src/
+*.test.ts
+
+# Configuration
+.eslintrc.json
+.prettierrc
+jest.config.js
+tsconfig.json
+
+# GitHub
+.github/
+
+# Testing
+coverage/
+*.log
+__test_fixtures__/
+
+# Development
+node_modules/
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Other
+tmp/
+temp/
+.env*

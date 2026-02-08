@@ -1,0 +1,14 @@
+# Code Owners
+
+## Global
+
+* @stylescape @scape-agency @vanvianen
+
+## Documentation
+
+README.md   @vanvianen
+/docs/      @vanvianen
+
+## Typescript
+
+*.ts        @vanvianen

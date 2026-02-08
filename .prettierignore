@@ -1,0 +1,25 @@
+# see https://prettier.io/docs/en/ignore
+
+# Ignore artifacts:
+build
+coverage
+
+# Ignore all HTML files:
+**/*.html
+
+
+node_modules
+.vscode/
+dist/
+./dist
+
+**/.DS_Store
+.idea
+*.iml
+*.log
+npm-debug.log*
+settings.json
+.floo
+.flooignore
+*.yaml
+*.yml

@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "@getkist/action-eslint"
+version: 1.0.0
+abstract: "ESLint linting actions for kist"
+authors:
+  - name: "kist"
+repository-code: "https://github.com/getkist/kist-action-eslint"
+license: MIT
+keywords:
+  - kist
+  - eslint
+  - linting
+  - typescript
+  - javascript

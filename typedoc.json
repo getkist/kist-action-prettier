@@ -1,0 +1,14 @@
+{
+  "displayName": "@getkist/action-typescript",
+  "out": "docs/api",
+  "readme": "README.md",
+  "entryPoints": ["src/index.ts"],
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeExternals": false,
+  "excludeInternal": true,
+  "excludeNotDocumented": false,
+  "sort": ["source-order"],
+  "tsconfig": "./tsconfig.json",
+  "plugin": ["typedoc-plugin-markdown"]
+}
