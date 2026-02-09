@@ -62,3 +62,32 @@ export abstract class Action<TOptions = Record<string, unknown>> {
         }
     }
 }
+
+/**
+ * Action options type - a generic record of key-value pairs
+ */
+export type ActionOptionsType = Record<string, unknown>;
+
+/**
+ * Plugin interface for kist action packages
+ */
+export interface ActionPlugin {
+    /** Plugin name */
+    name?: string;
+    /** Plugin version */
+    version: string;
+    /** Plugin description */
+    description?: string;
+    /** Plugin author */
+    author?: string;
+    /** Repository URL */
+    repository?: string;
+    /** Keywords */
+    keywords?: string[];
+    /** Map of action names to action classes */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    actions?: Record<string, new () => Action<any>>;
+    /** Register actions method */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    registerActions?: () => Record<string, new () => Action<any>>;
+}
