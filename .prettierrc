@@ -1,20 +1,31 @@
+# see https://prettier.io/docs/en/configuration.html
+
 arrowParens: "always"
 bracketSameLine: false
 bracketSpacing: true
+configPath: ".prettierrc"
 embeddedLanguageFormatting: "auto"
+enable: true
+enableDebugLogs: false
 endOfLine: "lf"
 experimentalTernaries: false
 htmlWhitespaceSensitivity: "css"
+ignorePath: ".prettierignore"
 insertPragma: false
 jsxSingleQuote: false
+prettierPath: "./node_modules/prettier"
 printWidth: 79
 proseWrap: "preserve"
 quoteProps: "as-needed"
+requireConfig: true
 requirePragma: false
+resolveGlobalModules: false
 semi: true
 singleAttributePerLine: false
 singleQuote: false
 tabWidth: 4
 trailingComma: "all"
+useEditorConfig: true
 useTabs: false
 vueIndentScriptAndStyle: false
+withNodeModules: false
