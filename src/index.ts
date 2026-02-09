@@ -15,6 +15,7 @@ import { ActionPlugin } from "./types/Action.js";
 import { PrettierAction } from "./actions/PrettierAction/index.js";
 
 const plugin: ActionPlugin = {
+    name: "@getkist/action-prettier",
     version: "1.0.0",
     description: "Prettier code formatting for kist",
     author: "kist",
