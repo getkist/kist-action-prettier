@@ -1,6 +1,6 @@
 {
   "name": "@getkist/action-prettier",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Prettier code formatting action for kist",
   "main": "./dist/index.cjs",
   "types": "dist/index.d.ts",
