@@ -84,7 +84,7 @@ Formats code files using Prettier.
 ### Options
 
 | Option | Type | Default | Description |
-|--------|------|---------|-------------|
+| -------- | ------ | --------- | ------------- |
 | `targetFiles` | string[] | **required** | Files or glob patterns to format |
 | `write` | boolean | true | Write formatted files (false = check mode) |
 | `configPath` | string | - | Path to Prettier config file |
