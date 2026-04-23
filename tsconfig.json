@@ -8,7 +8,7 @@
             "kist/*": ["./node_modules/kist/js/*"]
         },
         "lib": ["ES2022"],
-        "types": ["node"],
+        "types": ["node", "jest"],
         "declaration": true,
         "declarationMap": true,
         "sourceMap": true,
