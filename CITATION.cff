@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 type: software
 title: "@getkist/action-prettier"
-version: 1.0.1
-date-released: "2026-02-08"
+version: 1.0.13
+date-released: 2026-04-23
 abstract: "Prettier code formatting action for kist - A TypeScript-based build orchestration tool"
 authors:
   - name: "kist contributors"
