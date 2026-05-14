@@ -3,15 +3,22 @@
   "@type": "SoftwareSourceCode",
   "name": "@getkist/action-prettier",
   "description": "Prettier code formatting action for kist - A TypeScript-based build orchestration tool",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "dateCreated": "2026-01-15",
   "dateModified": "2026-02-08",
   "license": "https://spdx.org/licenses/MIT",
   "codeRepository": "https://github.com/getkist/kist-action-prettier",
   "issueTracker": "https://github.com/getkist/kist-action-prettier/issues",
-  "programmingLanguage": ["TypeScript", "JavaScript"],
+  "programmingLanguage": [
+    "TypeScript",
+    "JavaScript"
+  ],
   "runtimePlatform": "Node.js",
-  "operatingSystem": ["Linux", "macOS", "Windows"],
+  "operatingSystem": [
+    "Linux",
+    "macOS",
+    "Windows"
+  ],
   "softwareRequirements": [
     {
       "@type": "SoftwareApplication",
