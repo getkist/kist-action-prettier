@@ -1,6 +1,6 @@
 {
   "name": "@getkist/action-prettier",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "Prettier code formatting action for kist",
   "main": "./dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -42,16 +42,16 @@
     "npm": ">=10.0.0"
   },
   "dependencies": {
-    "prettier": "^3.2.0"
+    "prettier": "^3.8.3"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "@types/node": "^25.2.2",
-    "eslint": "^10.0.0",
-    "jest": "^30.2.0",
-    "ts-jest": "^29.1.2",
-    "typescript": "^6.0.2",
-    "typescript-eslint": "^8.0.0",
+    "@types/node": "^25.8.0",
+    "eslint": "^10.3.0",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.9",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.3",
     "tsup": "^8.5.1"
   },
   "files": [
