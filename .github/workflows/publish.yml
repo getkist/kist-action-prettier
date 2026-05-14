@@ -26,10 +26,10 @@ jobs:
           cache: 'npm'
 
       - name: Use npm >= 11.5.1 (required for trusted publishing)
-        run: npm install -g npm@latest
+        run: npm install -g npm@11.5.2 --force
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       - name: Build
         run: npm run build
