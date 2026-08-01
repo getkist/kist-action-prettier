@@ -23,12 +23,12 @@
     {
       "@type": "SoftwareApplication",
       "name": "Node.js",
-      "version": "1.0.28"
+      "version": ">=22.0.0"
     },
     {
       "@type": "SoftwareApplication",
       "name": "kist",
-      "version": "1.0.28"
+      "version": ">=0.1.58"
     }
   ],
   "keywords": [

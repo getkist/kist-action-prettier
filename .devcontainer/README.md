@@ -1,6 +1,6 @@
-# Stylescape DevContainer
+# kist-action-prettier DevContainer
 
-This repository provides a development container configuration for working on the `Stylescape` project. The configuration is optimized for Node.js, TypeScript, SCSS, and Jinja2 templating, providing a comprehensive development environment using Visual Studio Code's Dev Containers.
+This repository provides a development container configuration for working on the `kist-action-prettier` project. The configuration is optimized for Node.js, TypeScript, SCSS, and Jinja2 templating, providing a comprehensive development environment using Visual Studio Code's Dev Containers.
 
 ## DevContainer Configuration
 
@@ -8,15 +8,15 @@ The development container is configured with the following settings:
 
 ```json
 {
-    "name": "Stylescape DevContainer",
+    "name": "kist-action-prettier DevContainer",
     "build": {
         "dockerfile": "Dockerfile",
         "context": "."
     },
-    "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18",
+    "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-22",
     "features": {
-        "ghcr.io/devcontainers/features/node:1": {
-            "version": "18"
+        "ghcr.io/devcontainers/features/node:2": {
+            "version": "22"
         }
     },
     "customizations": {
@@ -24,7 +24,6 @@ The development container is configured with the following settings:
             "extensions": [
                 "dbaeumer.vscode-eslint",
                 "esbenp.prettier-vscode",
-                "ms-python.python",
                 "ms-vscode.vscode-typescript-next",
                 "stylelint.vscode-stylelint",
                 "streetsidesoftware.code-spell-checker",
@@ -34,9 +33,7 @@ The development container is configured with the following settings:
                 "vscode-icons-team.vscode-icons",
                 "jinja.html-formatter",
                 "ritwickdey.LiveServer",
-                "gruntfuggly.todo-tree",
-                "svelte.svelte-vscode",
-                "octref.vetur"
+                "gruntfuggly.todo-tree"
             ],
             "settings": {
                 "editor.formatOnSave": true,
@@ -48,7 +45,7 @@ The development container is configured with the following settings:
         }
     },
     "forwardPorts": [3000],
-    "postCreateCommand": "npm install && pip3 install -r requirements.txt",
+    "postCreateCommand": "npm install",
     "remoteUser": "vscode",
     "workspaceFolder": "/workspace",
     "mounts": [
@@ -66,7 +63,7 @@ The development container is configured with the following settings:
 ### Key Components
 
 1. **Base Image**:
-    - **Node.js Dev Container**: The development environment is based on the official Node.js Dev Container image `mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18`, which includes Node.js 18, ensuring consistency across development environments.
+    - **Node.js Dev Container**: The development environment is based on the official Node.js Dev Container image `mcr.microsoft.com/vscode/devcontainers/javascript-node:0-22`, which includes Node.js 22, ensuring consistency across development environments.
 
 2. **VS Code Extensions**:
    The container is pre-configured with a comprehensive set of Visual Studio Code extensions to enhance your development experience:
@@ -85,12 +82,9 @@ The development container is configured with the following settings:
         - `streetsidesoftware.code-spell-checker`: Spell checking for text files.
         - `gruntfuggly.todo-tree`: Managing TODO comments effectively.
         - `PKief.material-icon-theme` and `vscode-icons-team.vscode-icons`: Custom icons for a better file explorer experience.
-    - **Framework-Specific**:
-        - `svelte.svelte-vscode`: Support for Svelte development.
-        - `octref.vetur`: Support for Vue.js development.
 
 3. **Post-Creation Commands**:
-    - Automatically installs Node.js and Python dependencies using `npm install` and `pip3 install -r requirements.txt` after the container is created, ensuring your development environment is ready to go.
+    - Automatically installs Node.js dependencies using `npm install` after the container is created, ensuring your development environment is ready to go.
 
 4. **Environment Variables**:
     - The `NODE_ENV` is set to `development` for both the remote and container environments, ensuring your application runs in development mode.
@@ -130,4 +124,4 @@ Feel free to customize the `devcontainer.json` file to better suit your needs. Y
 
 ### Conclusion
 
-This DevContainer setup for `Stylescape` provides a robust and efficient development environment, streamlining your workflow and ensuring consistency across different development setups. Enjoy coding in a fully integrated and customized environment!
+This DevContainer setup for `kist-action-prettier` provides a robust and efficient development environment, streamlining your workflow and ensuring consistency across different development setups. Enjoy coding in a fully integrated and customized environment!

@@ -1,13 +1,13 @@
 {
-    "name": "Stylescape DevContainer",
+    "name": "kist-action-prettier DevContainer",
     "build": {
         "dockerfile": "Dockerfile",
         "context": "."
     },
-    "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18",
+    "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-22",
     "features": {
         "ghcr.io/devcontainers/features/node:2": {
-            "version": "18"
+            "version": "22"
         }
     },
     "customizations": {
@@ -15,7 +15,6 @@
             "extensions": [
                 "dbaeumer.vscode-eslint",
                 "esbenp.prettier-vscode",
-                "ms-python.python",
                 "ms-vscode.vscode-typescript-next",
                 "stylelint.vscode-stylelint",
                 "streetsidesoftware.code-spell-checker",
@@ -25,9 +24,7 @@
                 "vscode-icons-team.vscode-icons",
                 "jinja.html-formatter",
                 "ritwickdey.LiveServer",
-                "gruntfuggly.todo-tree",
-                "svelte.svelte-vscode",
-                "octref.vetur" // Vue.js support
+                "gruntfuggly.todo-tree"
             ],
             "settings": {
                 "editor.formatOnSave": true,
@@ -39,7 +36,7 @@
         }
     },
     "forwardPorts": [3000],
-    "postCreateCommand": "npm install && pip3 install -r requirements.txt",
+    "postCreateCommand": "npm install",
     "remoteUser": "vscode",
     "workspaceFolder": "/workspace",
     "mounts": [

@@ -104,7 +104,7 @@ Formats code files using Prettier.
 
 ## Requirements
 
-- Node.js >= 20.0.0
+- Node.js >= 22.0.0
 - kist >= 0.1.58
 
 ## License
