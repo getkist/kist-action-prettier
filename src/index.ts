@@ -14,6 +14,14 @@ export type { ActionOptionsType } from "./types/Action.js";
 import { ActionPlugin } from "./types/Action.js";
 import { PrettierAction } from "./actions/PrettierAction/index.js";
 
+/**
+ * Kist action plugin for Prettier code formatting.
+ *
+ * This is the package's default export and satisfies the {@link ActionPlugin}
+ * interface, so the kist CLI can read its metadata and discover the actions
+ * it registers (currently just {@link PrettierAction}) via
+ * `registerActions()`.
+ */
 const plugin: ActionPlugin = {
     name: "@getkist/action-prettier",
     version: "1.0.0",

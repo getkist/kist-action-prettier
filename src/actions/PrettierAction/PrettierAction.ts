@@ -1,104 +1,164 @@
+// ============================================================================
+// Import
+// ============================================================================
+
 import { Action } from "../../types/Action.js";
 import { promises as fs } from "fs";
 import path from "path";
 import * as prettier from "prettier";
 
+// ============================================================================
+// Types
+// ============================================================================
+
 /**
- * Options for the PrettierAction
+ * Options for the PrettierAction. Only `targetFiles` is required; all style
+ * options are optional and, when omitted, fall back to whatever is resolved
+ * from `configPath` (if provided) or Prettier's own built-in defaults.
+ * Explicit style options here always take precedence over a resolved config
+ * file, since they are merged on top of it in
+ * {@link PrettierAction.buildPrettierOptions}.
+ *
+ * @example
+ * ```yaml
+ * steps:
+ *   - action: PrettierAction
+ *     options:
+ *       targetFiles:
+ *         - "src/index.ts"
+ *         - "src/utils/helpers.ts"
+ *       write: true
+ *       singleQuote: true
+ *       semi: false
+ *       trailingComma: "all"
+ * ```
  */
 export interface PrettierActionOptions {
     /**
-     * Files or glob patterns to format
+     * Files or glob patterns to format. Must be a non-empty array.
+     * Note: only direct file paths are currently resolved — entries that
+     * don't point at an existing file (including glob patterns and
+     * directories) are skipped with a warning rather than expanded.
      */
     targetFiles: string[];
 
     /**
-     * Whether to write formatted files back to disk.
-     * If false, only checks formatting without modifying files.
+     * Whether to write formatted files back to disk. If false, files are
+     * only checked for formatting and no files are modified; the action
+     * then throws once all files have been processed if any of them need
+     * formatting (default: true)
      */
     write?: boolean;
 
     /**
-     * Path to a custom Prettier config file
+     * Path to a custom Prettier config file to resolve options from. Any
+     * options resolved from this file are overridden by the explicit style
+     * options below where both are set
      */
     configPath?: string;
 
     /**
-     * Tab width for indentation
+     * Tab width for indentation (Prettier default: 2)
      */
     tabWidth?: number;
 
     /**
-     * Use tabs instead of spaces
+     * Use tabs instead of spaces for indentation (Prettier default: false)
      */
     useTabs?: boolean;
 
     /**
-     * Print semicolons at the ends of statements
+     * Print semicolons at the ends of statements (Prettier default: true)
      */
     semi?: boolean;
 
     /**
-     * Use single quotes instead of double quotes
+     * Use single quotes instead of double quotes (Prettier default: false)
      */
     singleQuote?: boolean;
 
     /**
-     * Print trailing commas wherever possible
+     * Print trailing commas wherever possible (Prettier default: "all")
      */
     trailingComma?: "all" | "es5" | "none";
 
     /**
-     * Print spaces between brackets in object literals
+     * Print spaces between brackets in object literals (Prettier default: true)
      */
     bracketSpacing?: boolean;
 
     /**
-     * Put the closing bracket of a multi-line element on a new line
+     * Put the closing bracket of a multi-line element on a new line instead
+     * of the same line as the last attribute (Prettier default: false)
      */
     bracketSameLine?: boolean;
 
     /**
      * Include parentheses around a sole arrow function parameter
+     * (Prettier default: "always")
      */
     arrowParens?: "always" | "avoid";
 
     /**
-     * Line width that the printer will wrap on
+     * Line width that the printer will wrap on (Prettier default: 80)
      */
     printWidth?: number;
 
     /**
      * How to handle whitespace in HTML, Vue, Angular, or JSX
+     * (Prettier default: "css")
      */
     htmlWhitespaceSensitivity?: "css" | "strict" | "ignore";
 
     /**
-     * End of line style
+     * End of line style (Prettier default: "lf")
      */
     endOfLine?: "lf" | "crlf" | "cr" | "auto";
 
     /**
-     * Force parser to use (auto-detected by default)
+     * Force a specific parser to use instead of the one inferred from the
+     * file extension (default: auto-detected per file)
      */
     parser?: string;
 
     /**
-     * Ignore files matching patterns in .prettierignore
+     * Silently skip files whose type/parser cannot be inferred instead of
+     * throwing an error for them (default: false)
      */
     ignoreUnknown?: boolean;
 }
 
+// ============================================================================
+// Classes
+// ============================================================================
+
 /**
- * Action for formatting code files using Prettier.
+ * Action for formatting (or checking the formatting of) code files using
+ * Prettier. Supports resolving style options from a Prettier config file,
+ * overriding individual style options directly, and running in either
+ * "write" mode (formats non-conforming files in place) or "check" mode
+ * (leaves files untouched and fails if any file is not already formatted).
  */
 export class PrettierAction extends Action<PrettierActionOptions> {
     readonly name = "PrettierAction";
 
+    /**
+     * Returns a short, human-readable description of this action.
+     *
+     * @returns A one-line description of what this action does.
+     */
     describe(): string {
         return "Format code files using Prettier";
     }
 
+    /**
+     * Validates the provided options before execution.
+     *
+     * @param options - The options to validate.
+     * @returns true if options are valid; false otherwise. Validation
+     * failures are logged via {@link Action.logError} rather than thrown,
+     * so callers should check the return value.
+     */
     validateOptions(options: PrettierActionOptions): boolean {
         if (!options.targetFiles || !Array.isArray(options.targetFiles) || options.targetFiles.length === 0) {
             this.logError("Invalid options: 'targetFiles' must be a non-empty array.");
@@ -128,6 +188,26 @@ export class PrettierAction extends Action<PrettierActionOptions> {
         return true;
     }
 
+    /**
+     * Executes Prettier formatting (or format-checking) against the
+     * resolved set of target files.
+     *
+     * In write mode, non-conforming files are formatted and saved to disk.
+     * In check mode, no files are modified; if one or more files need
+     * formatting, an error is thrown only after every file has been
+     * processed, so the full set of results (and any per-file errors) is
+     * logged before execution fails. Per-file errors (e.g. an unparseable
+     * file) are collected and reported as warnings rather than aborting
+     * the run early.
+     *
+     * @param options - The options for this run of the action.
+     * @returns A promise that resolves once every matched file has been
+     * processed (in write mode), or that resolves/rejects based on whether
+     * any file needed formatting (in check mode).
+     * @throws {Error} If `options` fail validation, if check mode finds one
+     * or more files that need formatting, or if building Prettier options
+     * or resolving the target files fails unexpectedly.
+     */
     async execute(options: PrettierActionOptions): Promise<void> {
         if (!this.validateOptions(options)) {
             throw new Error("Invalid options provided to PrettierAction");
@@ -191,7 +271,14 @@ export class PrettierAction extends Action<PrettierActionOptions> {
     }
 
     /**
-     * Build Prettier options from action options and config file
+     * Builds the effective Prettier options for this run by resolving
+     * `configPath` (when set) and merging the action's explicit style
+     * options on top of it, so explicit options always win over the
+     * config file.
+     *
+     * @param options - The action options to derive Prettier options from.
+     * @returns The merged Prettier options to use when formatting/checking
+     * each file (before the per-file `parser`/`filepath` are added).
      */
     private async buildPrettierOptions(options: PrettierActionOptions): Promise<prettier.Options> {
         let configOptions: prettier.Options = {};
@@ -224,7 +311,16 @@ export class PrettierAction extends Action<PrettierActionOptions> {
     }
 
     /**
-     * Resolve file patterns to actual file paths
+     * Resolves the configured `targetFiles` entries to absolute file paths.
+     *
+     * Only entries that point directly at an existing file are included;
+     * directories are skipped with a warning (glob expansion is not
+     * implemented in this simple resolver), and entries that don't match
+     * any existing file are also skipped with a warning rather than
+     * causing the run to fail.
+     *
+     * @param patterns - File paths (or glob-like strings) from `targetFiles`.
+     * @returns The de-duplicated list of resolved, absolute file paths.
      */
     private async resolveFiles(patterns: string[]): Promise<string[]> {
         const files: string[] = [];
@@ -250,11 +346,32 @@ export class PrettierAction extends Action<PrettierActionOptions> {
     }
 
     /**
-     * Process a single file with Prettier
+     * Formats or checks a single file with Prettier.
+     *
+     * The file's parser is inferred from its extension unless
+     * `prettierOptions.parser` is already set. Files ignored via
+     * `.prettierignore`, or whose parser can't be inferred and
+     * `ignoreUnknown` is set, are skipped without being read/written.
+     *
+     * @param filePath - Absolute path of the file to process.
+     * @param prettierOptions - The merged Prettier options to format/check
+     * with (parser and filepath are added internally per file).
+     * @param write - Whether to write formatted output back to disk. When
+     * false, the file is left untouched even if it needs formatting, and
+     * "formatted" is returned to indicate it needs formatting rather than
+     * that it was actually rewritten.
+     * @param ignoreUnknown - Whether to silently skip files whose parser
+     * cannot be inferred instead of throwing for them.
+     * @returns "unchanged" if the file is already formatted, "formatted"
+     * if it was rewritten (write mode) or needs rewriting (check mode), or
+     * "skipped" if the file was ignored via `.prettierignore` or has an
+     * unrecognized type and `ignoreUnknown` is set.
+     * @throws {Error} If the file's parser cannot be inferred and
+     * `ignoreUnknown` is not set.
      */
     private async processFile(
-        filePath: string, 
-        prettierOptions: prettier.Options, 
+        filePath: string,
+        prettierOptions: prettier.Options,
         write: boolean,
         ignoreUnknown?: boolean
     ): Promise<"formatted" | "unchanged" | "skipped"> {
