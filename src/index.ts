@@ -24,7 +24,7 @@ import { PrettierAction } from "./actions/PrettierAction/index.js";
  */
 const plugin: ActionPlugin = {
     name: "@getkist/action-prettier",
-    version: "1.0.29",
+    version: "1.0.30",
     description: "Prettier code formatting for kist",
     author: "kist",
     repository: "https://github.com/getkist/kist-action-prettier",
