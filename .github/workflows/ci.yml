@@ -44,7 +44,7 @@ jobs:
         run: npm run test:coverage --if-present
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         if: matrix.os == 'ubuntu-latest' && hashFiles('coverage/lcov.info') != ''
         with:
           files: ./coverage/lcov.info
