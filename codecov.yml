@@ -1,0 +1,39 @@
+# Codecov configuration for the kist organisation.
+#
+# `target: auto` compares each pull request against the coverage of its base
+# commit rather than a fixed number, so a repository that already sits at 100%
+# is held there while one still climbing is only asked not to regress. The
+# threshold is the slack allowed on that comparison — small enough to catch a
+# genuinely untested addition, large enough that line-count noise from a
+# refactor does not fail the build.
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+        informational: false
+    patch:
+      default:
+        target: 80%
+        threshold: 5%
+        informational: false
+
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: true
+
+# Generated output and test scaffolding are not product code; counting them
+# would make the percentage describe the build rather than the source.
+ignore:
+  - "dist/**"
+  - "build/**"
+  - "coverage/**"
+  - "doc/**"
+  - "docs/**"
+  - "tst/**"
+  - "**/*.d.ts"
+  - "**/*.config.js"
+  - "**/*.config.cjs"
+  - "**/*.config.ts"

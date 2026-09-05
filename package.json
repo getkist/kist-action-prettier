@@ -1,71 +1,89 @@
 {
-  "name": "@getkist/action-prettier",
-  "version": "1.0.30",
-  "description": "Prettier code formatting action for kist",
-  "main": "./dist/index.cjs",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.cjs"
-      }
+    "name": "@getkist/action-prettier",
+    "version": "1.0.31",
+    "description": "Prettier code formatting action for kist",
+    "main": "./dist/index.cjs",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/index.mjs"
+            },
+            "require": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/index.cjs"
+            }
+        },
+        "./package.json": "./package.json"
     },
-    "./package.json": "./package.json"
-  },
-  "scripts": {
-    "build": "tsup",
-    "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
-    "lint": "eslint src/**/*.ts",
-    "prepublishOnly": "npm run build && npm test"
-  },
-  "keywords": [
-    "kist",
-    "prettier",
-    "format",
-    "code-formatting",
-    "plugin"
-  ],
-  "author": "kist",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/getkist/kist-action-prettier.git"
-  },
-  "engines": {
-    "node": ">=22.0.0",
-    "npm": ">=10.0.0"
-  },
-  "dependencies": {
-    "prettier": "^3.9.6"
-  },
-  "devDependencies": {
-    "@eslint/js": "10.0.1",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^26.1.2",
-    "eslint": "^10.8.0",
-    "jest": "^30.4.2",
-    "ts-jest": "^29.4.12",
-    "tsup": "^8.5.1",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "8.65.0"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "peerDependencies": {
-    "kist": ">=0.1.58"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "sideEffects": false,
-  "module": "./dist/index.mjs"
+    "scripts": {
+        "build": "tsup",
+        "build:watch": "tsup --watch",
+        "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
+        "test:watch": "NODE_OPTIONS='--experimental-vm-modules' jest --watch",
+        "test:coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
+        "test:unit": "NODE_OPTIONS='--experimental-vm-modules' jest --testPathPatterns='tst[\\/]unit[\\/]'",
+        "test:integration": "NODE_OPTIONS='--experimental-vm-modules' jest --testPathPatterns='tst[\\/]integration[\\/]'",
+        "lint": "eslint src/**/*.ts",
+        "lint:fix": "eslint 'src/**/*.ts' --fix",
+        "format": "prettier --write 'src/**/*.ts'",
+        "clean": "rm -rf dist docs/api coverage",
+        "prepublishOnly": "npm run clean && npm run build && npm test"
+    },
+    "keywords": [
+        "kist",
+        "prettier",
+        "format",
+        "code-formatting",
+        "plugin"
+    ],
+    "author": "kist",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/getkist/kist-action-prettier.git"
+    },
+    "engines": {
+        "node": ">=22.0.0",
+        "npm": ">=10.0.0"
+    },
+    "dependencies": {
+        "prettier": "^3.9.6"
+    },
+    "devDependencies": {
+        "@eslint/js": "10.0.1",
+        "@types/jest": "^30.0.0",
+        "@types/node": "^26.1.2",
+        "eslint": "^10.8.0",
+        "jest": "^30.4.2",
+        "ts-jest": "^29.4.12",
+        "tsup": "^8.5.1",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "8.65.0"
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "peerDependencies": {
+        "kist": ">=0.1.58"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "sideEffects": false,
+    "module": "./dist/index.mjs",
+    "homepage": "https://github.com/getkist/kist-action-prettier#readme",
+    "bugs": {
+        "url": "https://github.com/getkist/kist-action-prettier/issues"
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/scape-foundation"
+        }
+    ]
 }

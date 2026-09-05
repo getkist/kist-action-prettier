@@ -140,6 +140,11 @@ export interface PrettierActionOptions {
  * (leaves files untouched and fails if any file is not already formatted).
  */
 export class PrettierAction extends Action<PrettierActionOptions> {
+    /**
+     * The name this action is registered and referenced by. A step's
+     * `action: PrettierAction` in kist.yaml resolves through this value, and it
+     * also prefixes the action's log output.
+     */
     readonly name = "PrettierAction";
 
     /**
@@ -193,20 +198,21 @@ export class PrettierAction extends Action<PrettierActionOptions> {
      * resolved set of target files.
      *
      * In write mode, non-conforming files are formatted and saved to disk.
-     * In check mode, no files are modified; if one or more files need
-     * formatting, an error is thrown only after every file has been
-     * processed, so the full set of results (and any per-file errors) is
-     * logged before execution fails. Per-file errors (e.g. an unparseable
-     * file) are collected and reported as warnings rather than aborting
-     * the run early.
+     * In check mode, no files are modified.
+     *
+     * A file Prettier cannot process does not abort the run early: every
+     * other file is still handled, the failures are reported together, and
+     * only then does the step fail. It does fail, though — a file the step
+     * was asked to format and left untouched is not a success, and merely
+     * logging it let a build pass over unformatted code.
      *
      * @param options - The options for this run of the action.
      * @returns A promise that resolves once every matched file has been
-     * processed (in write mode), or that resolves/rejects based on whether
-     * any file needed formatting (in check mode).
-     * @throws {Error} If `options` fail validation, if check mode finds one
-     * or more files that need formatting, or if building Prettier options
-     * or resolving the target files fails unexpectedly.
+     * processed successfully.
+     * @throws {Error} If `options` fail validation, if any file could not be
+     * processed, if check mode finds one or more files that need formatting,
+     * or if building Prettier options or resolving the target files fails
+     * unexpectedly.
      */
     async execute(options: PrettierActionOptions): Promise<void> {
         if (!this.validateOptions(options)) {
@@ -249,19 +255,33 @@ export class PrettierAction extends Action<PrettierActionOptions> {
                 }
             }
 
-            // Report results
-            if (write) {
-                this.logInfo(`Formatted ${formattedCount} file(s), ${unchangedCount} file(s) unchanged`);
-            } else {
-                if (formattedCount > 0) {
-                    throw new Error(`${formattedCount} file(s) need formatting`);
-                }
-                this.logInfo(`All ${unchangedCount} file(s) are properly formatted`);
-            }
-
+            // Per-file failures are reported before any pass/fail decision.
+            // They used to be logged *after* the check-mode throw below, so a
+            // run that both found unformatted files and failed to read others
+            // never mentioned the second group at all.
             if (errors.length > 0) {
                 this.logWarning(`${errors.length} file(s) had errors:`);
                 errors.forEach(e => this.logError(e));
+            }
+
+            // Report results
+            if (write) {
+                this.logInfo(`Formatted ${formattedCount} file(s), ${unchangedCount} file(s) unchanged`);
+            } else if (formattedCount === 0) {
+                this.logInfo(`All ${unchangedCount} file(s) are properly formatted`);
+            }
+
+            // A file Prettier could not process is left unformatted, so the
+            // step has not done what it was asked to. Logging and returning
+            // let a build pass with files the formatter never touched.
+            if (errors.length > 0) {
+                throw new Error(
+                    `${errors.length} file(s) could not be processed by Prettier`,
+                );
+            }
+
+            if (!write && formattedCount > 0) {
+                throw new Error(`${formattedCount} file(s) need formatting`);
             }
 
         } catch (error) {
@@ -283,9 +303,16 @@ export class PrettierAction extends Action<PrettierActionOptions> {
     private async buildPrettierOptions(options: PrettierActionOptions): Promise<prettier.Options> {
         let configOptions: prettier.Options = {};
 
-        // Load config file if specified
+        // Load config file if specified.
+        //
+        // `resolveConfig(p)` searches upward for the config that applies *to*
+        // `p`; handed the config file itself it returns null, so `configPath`
+        // silently did nothing. Passing it as `config` is what reads the named
+        // file instead of searching.
         if (options.configPath) {
-            const resolvedConfig = await prettier.resolveConfig(options.configPath);
+            const resolvedConfig = await prettier.resolveConfig(options.configPath, {
+                config: options.configPath,
+            });
             if (resolvedConfig) {
                 configOptions = resolvedConfig;
             }
